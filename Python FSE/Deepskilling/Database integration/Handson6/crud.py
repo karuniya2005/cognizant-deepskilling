@@ -1,133 +1,92 @@
 """
-===========================================================
 Hands-On 6
-Task 2 : CRUD Operations using SQLAlchemy
-Task 3 : Solving N+1 Problem using joinedload()
 
-N+1 Problem
+Task 2:
+CRUD Operations using SQLAlchemy ORM
 
-Without joinedload():
----------------------
-1 query fetches enrollments
-Then 1 query per student
-Then 1 query per course
+Task 3:
+Fix N+1 Query Problem using joinedload()
 
-Total Queries ≈ 13
+Before joinedload():
+- Multiple SQL queries are executed.
+- One query loads enrollments.
+- Additional queries load students and courses.
 
-With joinedload():
-------------------
-Only ONE SQL query is executed using JOIN.
-
-This improves application performance significantly.
-===========================================================
+After joinedload():
+- SQLAlchemy loads everything using a single JOIN query.
+- Performance improves by eliminating the N+1 problem.
 """
 
+from models import *
+from sqlalchemy.orm import sessionmaker, joinedload
 from datetime import date
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, joinedload
-
-from models import (
-    Base,
-    Department,
-    Student,
-    Course,
-    Enrollment,
-    Professor
-)
-
-# -------------------------------------------------
-# Database Connection
-# -------------------------------------------------
-
-DATABASE_URL = "postgresql://postgres:password@localhost/college_db_orm"
-
-# For MySQL use:
-# DATABASE_URL = "mysql+mysqlconnector://root:karu@localhost/college_db_orm"
-
-engine = create_engine(DATABASE_URL, echo=True)
-
+# Create session
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# =====================================================
-# TASK 2
-# CRUD OPERATIONS
-# =====================================================
-
-print("\n========== INSERT DEPARTMENTS ==========\n")
+# =====================================
+# INSERT DEPARTMENTS
+# =====================================
 
 dept1 = Department(
     dept_name="Computer Science",
-    hod_name="Dr. Ramesh Kumar",
-    budget=850000
+    hod_name="Dr. Rajesh",
+    budget=500000
 )
 
 dept2 = Department(
-    dept_name="Electronics",
-    hod_name="Dr. Priya Nair",
-    budget=620000
+    dept_name="Mechanical",
+    hod_name="Dr. Kumar",
+    budget=400000
 )
 
 dept3 = Department(
-    dept_name="Mechanical",
-    hod_name="Dr. Suresh Iyer",
-    budget=540000
+    dept_name="Electronics",
+    hod_name="Dr. Priya",
+    budget=450000
 )
 
 session.add_all([dept1, dept2, dept3])
 session.commit()
 
-print("Departments Inserted Successfully")
-
-
-# =====================================================
-
-print("\n========== INSERT STUDENTS ==========\n")
+# =====================================
+# INSERT STUDENTS
+# =====================================
 
 student1 = Student(
-    first_name="Arjun",
-    last_name="Mehta",
-    email="arjun@gmail.com",
-    date_of_birth=date(2003,4,12),
-    department=dept1,
-    enrollment_year=2022
+    first_name="Rahul",
+    last_name="Sharma",
+    email="rahul@gmail.com",
+    department=dept1
 )
 
 student2 = Student(
-    first_name="Priya",
-    last_name="Suresh",
-    email="priya@gmail.com",
-    date_of_birth=date(2003,7,25),
-    department=dept1,
-    enrollment_year=2022
+    first_name="Anita",
+    last_name="Verma",
+    email="anita@gmail.com",
+    department=dept2
 )
 
 student3 = Student(
-    first_name="Rohan",
-    last_name="Verma",
-    email="rohan@gmail.com",
-    date_of_birth=date(2002,11,8),
-    department=dept2,
-    enrollment_year=2021
+    first_name="Kiran",
+    last_name="Reddy",
+    email="kiran@gmail.com",
+    department=dept3
 )
 
 student4 = Student(
     first_name="Sneha",
     last_name="Patel",
     email="sneha@gmail.com",
-    date_of_birth=date(2004,1,30),
-    department=dept3,
-    enrollment_year=2023
+    department=dept1
 )
 
 student5 = Student(
-    first_name="Vikram",
-    last_name="Das",
-    email="vikram@gmail.com",
-    date_of_birth=date(2003,9,14),
-    department=dept1,
-    enrollment_year=2022
+    first_name="Arjun",
+    last_name="Singh",
+    email="arjun@gmail.com",
+    department=dept2
 )
 
 session.add_all([
@@ -137,170 +96,171 @@ session.add_all([
     student4,
     student5
 ])
-
 session.commit()
 
-print("Students Inserted Successfully")
-
-
-# =====================================================
-
-print("\n========== INSERT COURSES ==========\n")
+# =====================================
+# INSERT COURSES
+# =====================================
 
 course1 = Course(
-    course_name="Database Management Systems",
-    course_code="CS102",
-    credits=3,
-    department=dept1
-)
-
-course2 = Course(
-    course_name="Object Oriented Programming",
-    course_code="CS103",
+    course_code="CS101",
+    course_name="Database Management",
     credits=4,
     department=dept1
 )
 
-course3 = Course(
-    course_name="Circuit Theory",
-    course_code="EC101",
+course2 = Course(
+    course_code="ME101",
+    course_name="Thermodynamics",
     credits=3,
     department=dept2
 )
 
-session.add_all([
-    course1,
-    course2,
-    course3
-])
+course3 = Course(
+    course_code="EC101",
+    course_name="Digital Electronics",
+    credits=4,
+    department=dept3
+)
 
+session.add_all([course1, course2, course3])
 session.commit()
 
-print("Courses Inserted Successfully")
+# =====================================
+# INSERT PROFESSORS
+# =====================================
 
+prof1 = Professor(
+    professor_name="Dr. Suresh",
+    email="suresh@gmail.com",
+    department=dept1
+)
 
-# =====================================================
+prof2 = Professor(
+    professor_name="Dr. Ravi",
+    email="ravi@gmail.com",
+    department=dept2
+)
 
-print("\n========== INSERT ENROLLMENTS ==========\n")
+prof3 = Professor(
+    professor_name="Dr. Meena",
+    email="meena@gmail.com",
+    department=dept3
+)
 
-enrollment1 = Enrollment(
+session.add_all([prof1, prof2, prof3])
+session.commit()
+
+# =====================================
+# INSERT ENROLLMENTS
+# =====================================
+
+enroll1 = Enrollment(
     student=student1,
     course=course1,
-    enrollment_date=date.today(),
+    enrollment_date=date(2024, 1, 10),
     grade="A"
 )
 
-enrollment2 = Enrollment(
+enroll2 = Enrollment(
     student=student2,
     course=course1,
-    enrollment_date=date.today(),
+    enrollment_date=date(2024, 1, 11),
     grade="B"
 )
 
-enrollment3 = Enrollment(
+enroll3 = Enrollment(
     student=student3,
-    course=course3,
-    enrollment_date=date.today(),
+    course=course2,
+    enrollment_date=date(2024, 1, 12),
     grade="A"
 )
 
-enrollment4 = Enrollment(
-    student=student5,
-    course=course2,
-    enrollment_date=date.today(),
+enroll4 = Enrollment(
+    student=student4,
+    course=course3,
+    enrollment_date=date(2024, 1, 13),
     grade="A"
 )
 
 session.add_all([
-    enrollment1,
-    enrollment2,
-    enrollment3,
-    enrollment4
+    enroll1,
+    enroll2,
+    enroll3,
+    enroll4
 ])
-
 session.commit()
 
-print("Enrollments Inserted Successfully")
+print("Data inserted successfully!")
 
-
-# =====================================================
+# =====================================
 # READ
-# =====================================================
+# Students in Computer Science
+# =====================================
 
-print("\n========== COMPUTER SCIENCE STUDENTS ==========\n")
+print("\nStudents in Computer Science Department")
 
 students = (
     session.query(Student)
     .join(Department)
-    .filter(
-        Department.dept_name == "Computer Science"
+    .filter(Department.dept_name == "Computer Science")
+    .all()
+)
+
+for s in students:
+    print(
+        s.first_name,
+        s.last_name,
+        s.email
+    )
+
+# =====================================
+# READ
+# Eager Loading (Task 3)
+# =====================================
+
+print("\nEnrollment Details")
+
+enrollments = (
+    session.query(Enrollment)
+    .options(
+        joinedload(Enrollment.student),
+        joinedload(Enrollment.course)
     )
     .all()
 )
 
-for student in students:
+for e in enrollments:
     print(
-        student.first_name,
-        student.last_name,
-        student.email
+        e.student.first_name,
+        e.course.course_name,
+        e.grade
     )
 
-
-# =====================================================
-# READ ENROLLMENTS
-# =====================================================
-
-print("\n========== ENROLLMENTS ==========\n")
-
-enrollments = session.query(Enrollment).all()
-
-for enrollment in enrollments:
-
-    print(
-        enrollment.student.first_name,
-        "->",
-        enrollment.course.course_name,
-        "-",
-        enrollment.grade
-    )
-
-
-# =====================================================
+# =====================================
 # UPDATE
-# =====================================================
-
-print("\n========== UPDATE ==========\n")
+# =====================================
 
 student = (
     session.query(Student)
-    .filter_by(email="vikram@gmail.com")
+    .filter_by(email="rahul@gmail.com")
     .first()
 )
 
 if student:
-
-    student.enrollment_year = 2024
-
+    student.email = "rahul_new@gmail.com"
     session.commit()
+    print("\nStudent updated successfully!")
 
-    print("Student Updated Successfully")
-
-
-# =====================================================
+# =====================================
 # DELETE
-# =====================================================
+# =====================================
 
-print("\n========== DELETE ==========\n")
+enrollment = session.query(Enrollment).first()
 
-delete_record = (
-    session.query(Enrollment)
-    .first()
-)
-
-if delete_record:
-
-    session.delete(delete_record)
-
+if enrollment:
+    session.delete(enrollment)
     session.commit()
+    print("Enrollment deleted successfully!")
 
-    print("Enrollment Deleted Successfully")
+print("\nHands-On 6 Completed Successfully!")
