@@ -1,0 +1,46 @@
+Run python manage.py makemigrations to generate schematic tracking files, then run python manage.py migrate to implement database parity
+
+
+Run python manage.py shell
+
+
+paste this in the shell
+
+import django
+django.setup()
+from courses.models import Department, Course, Student, Enrollment
+from django.db.models import Count, F
+from django.db import connection
+
+# Step 16: Populate baseline records
+d1 = Department.objects.create(name="Computer Science", head_of_dept="Dr. Alan Turing", budget=500000.00)
+d2 = Department.objects.create(name="Electrical Engineering", head_of_dept="Dr. Nikola Tesla", budget=400000.00)
+
+c1 = Course.objects.create(name="Introduction to Programming", code="CS101", credits=4, department=d1)
+c2 = Course.objects.create(name="Database Systems", code="CS202", credits=3, department=d1)
+c3 = Course.objects.create(name="Circuit Analysis", code="EE101", credits=4, department=d2)
+c4 = Course.objects.create(name="Digital Signal Processing", code="EE302", credits=3, department=d2)
+
+s1 = Student.objects.create(first_name="John", last_name="Doe", email="john.doe@college.edu", department=d1, enrollment_year=2024)
+s2 = Student.objects.create(first_name="Jane", last_name="Smith", email="jane.smith@college.edu", department=d1, enrollment_year=2024)
+s3 = Student.objects.create(first_name="Bob", last_name="Johnson", email="bob.j@college.edu", department=d2, enrollment_year=2023)
+s4 = Student.objects.create(first_name="Alice", last_name="Williams", email="alice.w@college.edu", department=d2, enrollment_year=2025)
+s5 = Student.objects.create(first_name="Charlie", last_name="Brown", email="charlie.b@college.edu", department=d1, enrollment_year=2025)
+
+# Step 17: Query with double underscore relationship routing
+cs_courses = Course.objects.filter(department__name='Computer Science')
+print("CS Courses:", [c.name for c in cs_courses])
+
+# Step 18: Aggregation counting courses per department
+dept_counts = Department.objects.annotate(course_count=Count('courses')).values('name', 'course_count')
+print("Course Counts per Dept:", list(dept_counts))
+
+# Step 19: Performance optimization via select_related tracking
+students_optimized = Student.objects.select_related('department').all()
+for s in students_optimized:
+    print(f"Student: {s.first_name}, Dept: {s.department.name}")
+print("SQL Execution Count:", len(connection.queries))
+
+# Step 20: In-Database Atomic Calculations via F expressions
+Department.objects.update(budget=F('budget') * 1.1)
+print("Updated Budgets:", Department.objects.values('name', 'budget'))
