@@ -1,0 +1,14 @@
+-- 1NF:
+-- All columns contain atomic (single) values.
+-- No column stores multiple values in one field.
+-- Example: email and first_name each contain only one value.
+
+-- 2NF:
+-- All non-key attributes are fully dependent on the primary key.
+-- In the enrollments table, grade and enrollment_date depend on the complete enrollment record.
+-- There are no partial dependencies.
+
+-- 3NF:
+-- There are no transitive dependencies.
+-- Department information is stored only in the departments table.
+-- Students store only department_id, avoiding redundancy.
