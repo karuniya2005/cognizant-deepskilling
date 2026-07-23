@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Interactivity</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="site-title">Student Portal</div>
+    <nav>
+      <a href="#courses">Courses</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section id="courses-section">
+      <h2>My Courses</h2>
+
+      <!-- Search & Sort Controls -->
+      <div class="controls">
+        <input type="text" id="search-courses" placeholder="Search courses...">
+        <button id="sort-btn" type="button">Sort by Credits</button>
+      </div>
+
+      <!-- Dynamic Course Grid -->
+      <div class="course-grid"></div>
+
+      <!-- Total Credits -->
+      <p id="total-credits"></p>
+
+      <!-- Selected Course Info Banner -->
+      <div id="selected-course" class="info-box">
+        Click a course card to view details.
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Responsive</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header>
+    <div class="site-title">Student Portal</div>
+    <span class="menu-toggle">☰ Menu</span>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#grades">Grades</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero">
+      <h1>Welcome to the Student Portal</h1>
+      <p>View your enrolled courses, check your credits, and manage your profile.</p>
+      <button type="button">Explore Courses</button>
+    </section>
+
+    <!-- Student Stats Bar (Flexbox) -->
+    <section id="stats-bar">
+      <div class="stat-item">
+        <span>Courses Enrolled:</span>
+        <strong>5</strong>
+      </div>
+      <div class="stat-item">
+        <span>GPA:</span>
+        <strong>3.8</strong>
+      </div>
+      <div class="stat-item">
+        <span>Semester:</span>
+        <strong>6</strong>
+      </div>
+    </section>
+
+    <!-- Courses Grid (CSS Grid) -->
+    <section id="courses">
+      <h2>My Enrolled Courses</h2>
+
+      <div class="course-grid">
+        <article class="course-card">
+          <h3>CS101 - Data Structures</h3>
+          <p>Learn core computer science concepts including arrays, lists, and trees.</p>
+          <span>Credits: 4</span>
+        </article>
+
+        <article class="course-card">
+          <h3>WEB201 - Web Development</h3>
+          <p>Build basic web pages using modern HTML5, CSS3, and JavaScript.</p>
+          <span>Credits: 3</span>
+        </article>
+
+        <article class="course-card">
+          <h3>DB301 - Database Systems</h3>
+          <p>Introduction to relational database management and basic SQL queries.</p>
+          <span>Credits: 3</span>
+        </article>
+
+        <article class="course-card">
+          <h3>ALG401 - Algorithms</h3>
+          <p>Study greedy algorithms, divide and conquer, and dynamic programming.</p>
+          <span>Credits: 4</span>
+        </article>
+
+        <article class="course-card">
+          <h3>SE202 - Software Engineering</h3>
+          <p>Learn software design patterns, testing fundamentals, and version control.</p>
+          <span>Credits: 3</span>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Student Portal</p>
+  </footer>
+
+</body>
+</html>

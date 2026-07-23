@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Async & Fetch API</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Axios CDN for Task 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="site-title">Student Portal</div>
+    <nav>
+      <a href="#courses">Courses</a>
+      <a href="#notifications">Notifications</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Course Section (Async Delayed Load) -->
+    <section id="courses-section">
+      <h2>Enrolled Courses</h2>
+      <div id="course-loading" class="status-msg">Loading courses...</div>
+      <div class="course-grid"></div>
+    </section>
+
+    <hr>
+
+    <!-- Notifications Section (Fetch API / Axios) -->
+    <section id="notifications-section">
+      <h2>Notifications & Announcements</h2>
+      <div id="notify-loading" class="status-msg">Loading notifications...</div>
+      <div id="notify-error" class="error-msg" style="display: none;"></div>
+      <button id="retry-btn" type="button" style="display: none;">Retry Fetch</button>
+      
+      <div id="notifications-grid"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
